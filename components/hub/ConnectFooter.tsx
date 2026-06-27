@@ -23,7 +23,7 @@ export default function ConnectFooter() {
 
         <div className="footer-bottom">
           <span>© {new Date().getFullYear()} Stalin Matsitsa · Nkomazi, Mzansi</span>
-          <a href="/letter" className="footer-letter-link">A letter from Brighton →</a>
+          <a href="https://dev-thandabantu.github.io/who-are-you/letters/to-stalin/" className="footer-letter-link">A letter from Brighton →</a>
           <span>
             Built by{' '}
             <a href="https://bthanda.vercel.app" target="_blank" rel="noopener noreferrer">
