@@ -183,7 +183,7 @@ img, video { display: block; max-width: 100%; }
   z-index: 0;
   background-image:
     linear-gradient(90deg, rgba(8,8,8,0.92) 0%, rgba(8,8,8,0.62) 38%, rgba(8,8,8,0.22) 70%, rgba(8,8,8,0.72) 100%),
-    linear-gradient(0deg, rgba(8,8,8,0.95) 0%, rgba(8,8,8,0.16) 42%, rgba(8,8,8,0.86) 100%),
+    linear-gradient(0deg, rgba(8,8,8,1) 0%, rgba(8,8,8,0.85) 30%, rgba(8,8,8,0.3) 60%, rgba(8,8,8,0.75) 100%),
     url('/assets/body-stage-hero.png');
   background-size: cover;
   background-position: center;
@@ -191,40 +191,42 @@ img, video { display: block; max-width: 100%; }
   animation: stageBreath 12s var(--ease-in-out) infinite alternate;
 }
 
-/* When hero-stage-bg is a <video> element */
-video.hero-stage-bg {
-  background-image: none;
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
-}
-
-video.hero-stage-bg::after { display: none; }
-
-/* gradient overlays for the video hero */
-.hero-video + .hero-stage-sweep { z-index: 1; }
-
-.hero-video::before,
-.hero-video::after {
+/* Extra scrim layer — sits above video, below content */
+.hero::after {
   content: '';
   position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
+  background:
+    linear-gradient(to top,
+      rgba(8,8,8,1)    0%,
+      rgba(8,8,8,0.92) 18%,
+      rgba(8,8,8,0.55) 42%,
+      rgba(8,8,8,0.15) 68%,
+      rgba(8,8,8,0.5)  100%
+    );
 }
 
-.hero-video::before {
-  background: linear-gradient(90deg, rgba(8,8,8,0.88) 0%, rgba(8,8,8,0.5) 40%, rgba(8,8,8,0.18) 70%, rgba(8,8,8,0.65) 100%);
+/* Static placeholder — keeps the stage-bg look while video loads */
+.hero-static-bg {
+  transition: opacity 1.2s ease;
 }
 
-.hero-video::after {
-  background: linear-gradient(0deg, rgba(8,8,8,0.96) 0%, rgba(8,8,8,0.1) 45%, rgba(8,8,8,0.82) 100%);
+/* Video layer — fades in over the static bg once buffered */
+video.hero-stage-bg {
+  background-image: none;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  transition: opacity 1.4s ease;
+  animation: none; /* video moves itself, no CSS breath needed */
 }
 
 .hero-stage-sweep {
   position: absolute;
   inset: 0;
-  z-index: 0;
+  z-index: 1;
   pointer-events: none;
   background:
     linear-gradient(104deg, transparent 10%, rgba(230,184,74,0.16) 38%, transparent 58%),
@@ -257,7 +259,7 @@ video.hero-stage-bg::after { display: none; }
 
 .hero-content {
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 .hero-kicker {
@@ -266,6 +268,7 @@ video.hero-stage-bg::after { display: none; }
   text-transform: uppercase;
   color: var(--ember);
   margin-bottom: 0.75rem;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.9);
 }
 
 .hero-name {
@@ -275,11 +278,18 @@ video.hero-stage-bg::after { display: none; }
   letter-spacing: 0.01em;
   color: var(--ink);
   will-change: transform, opacity;
-  /* deliberately bleeds off the right edge on desktop */
   white-space: nowrap;
+  text-shadow:
+    0 2px 24px rgba(0,0,0,0.95),
+    0 4px 48px rgba(0,0,0,0.8);
 }
 
-.hero-name .gold { color: var(--gold); }
+.hero-name .gold {
+  color: var(--gold);
+  text-shadow:
+    0 2px 24px rgba(0,0,0,0.95),
+    0 0 40px rgba(196,154,58,0.3);
+}
 
 .hero-meta {
   display: flex;

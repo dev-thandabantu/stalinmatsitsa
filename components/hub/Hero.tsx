@@ -1,8 +1,25 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export default function Hero() {
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const [videoReady, setVideoReady] = useState(false)
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+
+    // canplaythrough = enough buffered to play without stalling
+    const onReady = () => setVideoReady(true)
+    video.addEventListener('canplaythrough', onReady, { once: true })
+
+    // Fallback: if already buffered when we mount (cache hit)
+    if (video.readyState >= 4) setVideoReady(true)
+
+    return () => video.removeEventListener('canplaythrough', onReady)
+  }, [])
+
   // Easter egg: type "dance" → hero name pulses gold
   useEffect(() => {
     let buf = ''
@@ -25,15 +42,27 @@ export default function Hero() {
 
   return (
     <section className="hero">
+      {/* Static placeholder — always present, fades out when video is ready */}
+      <div
+        className="hero-stage-bg hero-static-bg"
+        aria-hidden="true"
+        style={{ opacity: videoReady ? 0 : 1 }}
+      />
+
+      {/* Video — invisible until canplaythrough, then fades in */}
       <video
+        ref={videoRef}
         className="hero-stage-bg hero-video"
         src="/assets/hero.mp4"
         autoPlay
         muted
         loop
         playsInline
+        preload="auto"
         aria-hidden="true"
+        style={{ opacity: videoReady ? 1 : 0 }}
       />
+
       <div className="hero-stage-sweep" aria-hidden="true" />
       <div className="hero-rhythm" aria-hidden="true">
         <span />
