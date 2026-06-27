@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useRef } from 'react'
-
 const STALIN_WHATSAPP = '27814659551'
 
 type EventType =
@@ -123,6 +122,12 @@ export default function BookingForm() {
   }
 
   function sendToWhatsApp() {
+    window.posthog?.capture('booking_whatsapp_opened', {
+      event_type: a.eventType,
+      has_date: !!(a.date || a.dateTbc),
+      has_location: !!a.location.trim(),
+      budget: a.budget || null,
+    })
     const lines: string[] = [`He wena Stalin 👀 woza uzojaiva lana, we need you at this thing.`]
     lines.push(`Name: ${a.name}`)
     if (a.email) lines.push(`Email: ${a.email}`)

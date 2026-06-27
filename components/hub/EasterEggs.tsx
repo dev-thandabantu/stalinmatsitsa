@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-
 type EggId = 'lyric' | 'tiktok' | 'dancer' | 'reader'
 
 interface EggConfig {
@@ -71,6 +70,7 @@ export default function EasterEggs() {
       return
     }
     sessionStorage.setItem('egg_' + egg.id, '1')
+    window.posthog?.capture('egg_found', { egg_id: egg.id, ticket_num: egg.ticketNum })
     setActiveEgg(egg)
     if (egg.id === 'lyric') {
       setRiddleInput('')
@@ -94,6 +94,7 @@ export default function EasterEggs() {
     if (val === 'myeke' || val === 'ngimyeke') {
       setPhase('ticket')
     } else {
+      window.posthog?.capture('egg_riddle_failed')
       setRiddleError('Hayi. Lalela futhi.')
       setRiddleShake(true)
       setTimeout(() => { setRiddleShake(false); setRiddleInput('') }, 700)
