@@ -531,6 +531,8 @@ video.hero-stage-bg {
 .artist-photo-wrap {
   margin-top: 2.5rem;
   overflow: hidden;
+  position: relative;
+  cursor: pointer;
 }
 
 .artist-photo {
@@ -614,9 +616,7 @@ video.hero-stage-bg {
   scrollbar-width: none;
   gap: 1px;
   -webkit-overflow-scrolling: touch;
-  /* fade-out right edge hint */
-  -webkit-mask-image: linear-gradient(to right, black 80%, transparent 100%);
-  mask-image: linear-gradient(to right, black 80%, transparent 100%);
+  /* mask removed — clips touch events on mobile */
 }
 
 .collab-slider::-webkit-scrollbar { display: none; }
@@ -1492,4 +1492,246 @@ video.hero-stage-bg {
     animation: none;
     transform: none;
   }
+}
+
+/* ─── Easter Eggs ────────────────────────────────────────── */
+
+.egg {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  font: inherit;
+  display: inline;
+}
+
+/* 277K chip as button — must look identical to span chips */
+.egg-chip {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+/* egg-reader: invisible, matches surrounding muted text exactly */
+.egg-reader {
+  color: var(--muted);
+  cursor: text;
+}
+
+@keyframes eggPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(201, 132, 58, 0.7); }
+  70%  { box-shadow: 0 0 0 14px rgba(201, 132, 58, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(201, 132, 58, 0); }
+}
+
+.egg-pulse { animation: eggPulse 0.7s ease-out; }
+
+/* Dancer egg ripple — on the photo-wrap div */
+.egg-ripple {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border: 2px solid rgba(201, 132, 58, 0);
+  transition: border-color 0.3s ease;
+  z-index: 2;
+}
+
+.egg-ripple.active {
+  border-color: rgba(201, 132, 58, 0.6);
+  animation: eggRipple 3s linear forwards;
+}
+
+@keyframes eggRipple {
+  0%   { opacity: 0; transform: scale(0.96); }
+  15%  { opacity: 1; }
+  100% { opacity: 0.4; transform: scale(1.04); }
+}
+
+/* Full-screen overlay */
+.egg-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: rgba(8, 5, 3, 0.97);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(24px, 5vw, 64px);
+  animation: eggFadeIn 0.4s ease;
+}
+
+@keyframes eggFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.egg-card {
+  position: relative;
+  width: min(440px, 100%);
+  border: 1px solid rgba(201, 132, 58, 0.35);
+  padding: clamp(32px, 6vw, 52px);
+  text-align: center;
+  animation: eggCardIn 0.4s ease;
+}
+
+@keyframes eggCardIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.egg-card-close {
+  position: absolute;
+  top: 14px; right: 18px;
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.egg-card-close:hover { color: var(--ink); }
+
+.egg-already {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--muted);
+}
+
+.egg-riddle-prompt {
+  font-family: var(--font-sans), ui-sans-serif, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.5rem;
+}
+
+.egg-riddle-lyric {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+  color: var(--ink);
+  margin-bottom: 2rem;
+}
+
+.egg-riddle-input-wrap {
+  display: flex;
+  border: 1px solid rgba(201, 132, 58, 0.35);
+  overflow: hidden;
+}
+
+.egg-riddle-input-wrap.shake { animation: eggShake 0.35s ease; }
+
+@keyframes eggShake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-6px); }
+  40%       { transform: translateX(6px); }
+  60%       { transform: translateX(-4px); }
+  80%       { transform: translateX(4px); }
+}
+
+.egg-riddle-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 12px 16px;
+  color: var(--ink);
+  font-family: var(--font-sans), ui-sans-serif, sans-serif;
+  font-size: 1rem;
+  outline: none;
+}
+
+.egg-riddle-input::placeholder { color: var(--muted); opacity: 0.6; }
+
+.egg-riddle-submit {
+  background: rgba(201, 132, 58, 0.12);
+  border: none;
+  border-left: 1px solid rgba(201, 132, 58, 0.35);
+  padding: 12px 20px;
+  color: var(--gold);
+  font-family: var(--font-sans), ui-sans-serif, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.egg-riddle-submit:hover { background: rgba(201, 132, 58, 0.22); }
+
+.egg-riddle-error {
+  margin-top: 1rem;
+  font-family: var(--font-serif), Georgia, serif;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.egg-intro { padding: 1rem 0; }
+
+.egg-intro-main {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+}
+
+.egg-intro-sub {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 1rem;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.egg-ticket-label {
+  font-family: var(--font-sans), ui-sans-serif, sans-serif;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.5rem;
+}
+
+.egg-ticket-oneliner {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  color: var(--ink);
+  margin-bottom: 0.4rem;
+}
+
+.egg-ticket-oneliner-sub {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 0.9rem;
+  color: var(--muted);
+  font-style: italic;
+  margin-bottom: 1.5rem;
+}
+
+.egg-ticket-divider {
+  width: 40px;
+  height: 1px;
+  background: rgba(201, 132, 58, 0.3);
+  margin: 1.5rem auto;
+}
+
+.egg-ticket-num {
+  font-family: var(--font-display), 'Bebas Neue', sans-serif;
+  font-size: clamp(2.8rem, 8vw, 5rem);
+  color: var(--gold);
+  letter-spacing: 0.06em;
+  line-height: 1;
+  margin-bottom: 1.5rem;
+}
+
+.egg-ticket-cta {
+  font-family: var(--font-sans), ui-sans-serif, sans-serif;
+  font-size: 0.74rem;
+  color: var(--muted);
+  line-height: 1.6;
 }

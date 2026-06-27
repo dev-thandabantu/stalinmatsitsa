@@ -138,8 +138,7 @@ export default function EasterEggs() {
     }
 
     if (photo) {
-      photo.style.cursor = 'pointer'
-      photo.parentElement?.appendChild(ripple)
+      photo.appendChild(ripple)
       photo.addEventListener('pointerdown', onPointerDown)
       photo.addEventListener('pointerup', onPointerCancel)
       photo.addEventListener('pointerleave', onPointerCancel)
