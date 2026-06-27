@@ -23,6 +23,13 @@ export const metadata: Metadata = {
     title: 'Stalin Matsitsa',
     description: 'Artist · Dancer · Performer. Afropop / Maskandi / Amapiano from Nkomazi, Mpumalanga.',
     type: 'website',
+    images: [{ url: '/assets/og.jpg', width: 1200, height: 630, alt: 'Stalin Matsitsa' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Stalin Matsitsa',
+    description: 'Artist · Dancer · Performer. Afropop / Maskandi / Amapiano from Nkomazi, Mpumalanga.',
+    images: ['/assets/og.jpg'],
   },
 }
 
