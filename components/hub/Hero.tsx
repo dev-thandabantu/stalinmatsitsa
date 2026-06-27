@@ -26,7 +26,14 @@ export default function Hero() {
   return (
     <section className="hero">
       {/* Video background — drop a file at /public/assets/hero.mp4 to activate */}
-      <div className="hero-placeholder-bg" />
+      <div className="hero-stage-bg" aria-hidden="true" />
+      <div className="hero-stage-sweep" aria-hidden="true" />
+      <div className="hero-rhythm" aria-hidden="true">
+        <span />
+        <span />
+        <span />
+        <span />
+      </div>
 
       <div className="hero-content">
         <p className="hero-kicker" style={{ marginBottom: '1.5rem' }}>Nkomazi · Mpumalanga · eNingizimu Afrika</p>
@@ -51,6 +58,12 @@ export default function Hero() {
           <a href="#book" className="btn-outline">
             Book Stalin
           </a>
+        </div>
+
+        <div className="hero-proof" aria-label="Artist highlights">
+          <span>277K followers</span>
+          <span>3.1M likes</span>
+          <span>Dancer-led performance</span>
         </div>
       </div>
 

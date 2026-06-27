@@ -65,7 +65,7 @@ type Answers = {
 
 function heading(step: number, a: Answers): string {
   if (step === 1) {
-    return a.name.trim() ? `Good to meet you, ${a.name.trim().split(' ')[0]}.` : 'What is your name?'
+    return a.name.trim() ? `Good to meet you, ${a.name.trim().split(' ')[0]}.` : 'Igama lakho?'
   }
   if (step === 2) {
     return a.eventType ? `A ${a.eventType.toLowerCase()}. Got it.` : 'What kind of event?'

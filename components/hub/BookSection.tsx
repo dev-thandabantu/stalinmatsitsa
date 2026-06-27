@@ -14,6 +14,11 @@ export default function BookSection() {
               Festivals, club nights, corporate events, private celebrations — Stalin brings
               the full energy of his performance background to every stage.
             </p>
+            <div className="booking-dossier" aria-label="Performance credentials">
+              <span>Movement-first set</span>
+              <span>Afropop / Maskandi / Amapiano</span>
+              <span>Nkomazi to main stage</span>
+            </div>
             <p className="contact-note">
               Direct enquiries:{' '}
               <a href="mailto:stalinmatsitsa@gmail.com">stalinmatsitsa@gmail.com</a>
