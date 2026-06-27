@@ -54,25 +54,22 @@ export default function EasterEggs() {
   const [riddleInput, setRiddleInput] = useState('')
   const [riddleShake, setRiddleShake] = useState(false)
   const [riddleError, setRiddleError] = useState('')
+
   const tiktokCount = useRef(0)
   const dancerTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const rippleRef = useRef<HTMLDivElement | null>(null)
 
-  function alreadyFound(id: EggId) {
-    return sessionStorage.getItem('egg_' + id) === '1'
-  }
+  // Stable ref so event listeners always call the latest version
+  const triggerRef = useRef<(egg: EggConfig) => void>(() => {})
 
-  function markFound(id: EggId) {
-    sessionStorage.setItem('egg_' + id, '1')
-  }
-
-  function triggerEgg(egg: EggConfig) {
-    setActiveEgg(egg)
-    if (alreadyFound(egg.id)) {
+  triggerRef.current = (egg: EggConfig) => {
+    if (sessionStorage.getItem('egg_' + egg.id) === '1') {
+      setActiveEgg(egg)
       setPhase('already')
       setTimeout(() => setPhase('idle'), 2200)
       return
     }
+    sessionStorage.setItem('egg_' + egg.id, '1')
+    setActiveEgg(egg)
     if (egg.id === 'lyric') {
       setRiddleInput('')
       setRiddleError('')
@@ -83,7 +80,6 @@ export default function EasterEggs() {
     } else {
       setPhase('ticket')
     }
-    markFound(egg.id)
   }
 
   function closeOverlay() {
@@ -95,7 +91,6 @@ export default function EasterEggs() {
     const val = riddleInput.trim().toLowerCase().replace(/[^a-z]/g, '')
     if (val === 'myeke' || val === 'ngimyeke') {
       setPhase('ticket')
-      markFound('lyric')
     } else {
       setRiddleError('Hayi. Lalela futhi.')
       setRiddleShake(true)
@@ -104,64 +99,67 @@ export default function EasterEggs() {
   }
 
   useEffect(() => {
-    // Egg 1 — lyric: hidden button on watch heading (added via WatchSection)
+    // Egg 1 — hidden button on Watch heading
     const egg1 = document.getElementById('egg-lyric')
-    if (egg1) {
-      egg1.addEventListener('click', () => triggerEgg(EGGS[0]))
-    }
+    const onEgg1 = () => triggerRef.current(EGGS[0])
+    egg1?.addEventListener('click', onEgg1)
 
-    // Egg 2 — tiktok: 7 taps on 277K chip
+    // Egg 2 — tap 277K chip 7 times
     const chip = document.querySelector('[data-egg="tiktok"]') as HTMLElement | null
+    const onChip = () => {
+      tiktokCount.current += 1
+      if (tiktokCount.current === 7) {
+        tiktokCount.current = 0
+        chip?.classList.add('egg-pulse')
+        setTimeout(() => chip?.classList.remove('egg-pulse'), 700)
+        setTimeout(() => triggerRef.current(EGGS[1]), 400)
+      }
+    }
     if (chip) {
       chip.style.cursor = 'pointer'
-      chip.addEventListener('click', () => {
-        tiktokCount.current += 1
-        if (tiktokCount.current === 7) {
-          tiktokCount.current = 0
-          chip.classList.add('egg-pulse')
-          setTimeout(() => chip.classList.remove('egg-pulse'), 700)
-          setTimeout(() => triggerEgg(EGGS[1]), 400)
-        }
-      })
+      chip.addEventListener('click', onChip)
     }
 
-    // Egg 3 — dancer: 3s hold on press photo
+    // Egg 3 — hold press photo 3s
     const photo = document.querySelector('[data-egg="photo"]') as HTMLElement | null
+    const ripple = document.createElement('div')
+    ripple.className = 'egg-ripple'
+
+    const onPointerDown = () => {
+      ripple.classList.add('active')
+      dancerTimer.current = setTimeout(() => {
+        ripple.classList.remove('active')
+        triggerRef.current(EGGS[2])
+      }, 3000)
+    }
+    const onPointerCancel = () => {
+      if (dancerTimer.current) clearTimeout(dancerTimer.current)
+      ripple.classList.remove('active')
+    }
+
     if (photo) {
       photo.style.cursor = 'pointer'
-
-      const ripple = document.createElement('div')
-      ripple.className = 'egg-ripple'
       photo.parentElement?.appendChild(ripple)
-      rippleRef.current = ripple
-
-      photo.addEventListener('pointerdown', () => {
-        ripple.classList.add('active')
-        dancerTimer.current = setTimeout(() => {
-          ripple.classList.remove('active')
-          triggerEgg(EGGS[2])
-        }, 3000)
-      })
-
-      const cancel = () => {
-        if (dancerTimer.current) clearTimeout(dancerTimer.current)
-        ripple.classList.remove('active')
-      }
-      photo.addEventListener('pointerup', cancel)
-      photo.addEventListener('pointerleave', cancel)
-      photo.addEventListener('pointermove', cancel)
+      photo.addEventListener('pointerdown', onPointerDown)
+      photo.addEventListener('pointerup', onPointerCancel)
+      photo.addEventListener('pointerleave', onPointerCancel)
     }
 
-    // Egg 4 — reader: click "undeniable" span
+    // Egg 4 — click "undeniable"
     const reader = document.getElementById('egg-reader')
-    if (reader) {
-      reader.addEventListener('click', () => triggerEgg(EGGS[3]))
-    }
+    const onReader = () => triggerRef.current(EGGS[3])
+    reader?.addEventListener('click', onReader)
 
     return () => {
+      egg1?.removeEventListener('click', onEgg1)
+      chip?.removeEventListener('click', onChip)
+      photo?.removeEventListener('pointerdown', onPointerDown)
+      photo?.removeEventListener('pointerup', onPointerCancel)
+      photo?.removeEventListener('pointerleave', onPointerCancel)
+      reader?.removeEventListener('click', onReader)
+      ripple.remove()
       if (dancerTimer.current) clearTimeout(dancerTimer.current)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   if (phase === 'idle') return null
