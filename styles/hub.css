@@ -609,6 +609,14 @@ video.hero-stage-bg {
 }
 
 /* ─── Collab Slider ──────────────────────────────────────── */
+
+/* Wrapper breaks out of sec-inner so the slider bleeds full width */
+.collab-slider-wrap {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-top: 2rem;
+}
+
 .collab-slider {
   display: flex;
   overflow-x: scroll;
@@ -616,7 +624,10 @@ video.hero-stage-bg {
   scrollbar-width: none;
   gap: 1px;
   -webkit-overflow-scrolling: touch;
-  padding-right: clamp(40px, 8vw, 120px);
+  /* left padding aligns first card with sec-inner content above */
+  padding-left: max(1.5rem, calc((100vw - 1200px) / 2));
+  /* right padding lets last card snap and shows there's more */
+  padding-right: max(1.5rem, calc((100vw - 1200px) / 2 + 80px));
 }
 
 .collab-slider::-webkit-scrollbar { display: none; }
@@ -625,7 +636,7 @@ video.hero-stage-bg {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex: 0 0 clamp(260px, 36vw, 360px);
+  flex: 0 0 clamp(280px, 38vw, 480px);
   scroll-snap-align: start;
   scroll-snap-stop: always;
   padding: 1.75rem 1.5rem;

@@ -115,9 +115,7 @@ export default function BookingForm() {
   const inputRef = useRef<HTMLInputElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
-  useEffect(() => {
-    inputRef.current?.focus()
-  }, [step])
+  // No auto-focus — would scroll page to booking section on load
 
   const today = toDateInputValue(new Date())
   const set = (k: keyof Answers, v: string) => setA(prev => ({ ...prev, [k]: v }))
