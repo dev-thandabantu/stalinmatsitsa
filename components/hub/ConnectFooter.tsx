@@ -4,7 +4,7 @@ export default function ConnectFooter() {
   return (
     <footer className="connect" id="connect">
       <div className="connect-inner">
-        <p className="sec-kicker">Hlangana · Connect</p>
+        <p className="sec-kicker">Woza · Connect</p>
         <div className="connect-handle">@stalinmatsitsa</div>
 
         <div className="social-pills">
@@ -23,7 +23,6 @@ export default function ConnectFooter() {
 
         <div className="footer-bottom">
           <span>© {new Date().getFullYear()} Stalin Matsitsa · Nkomazi, Mzansi</span>
-          <a href="https://dev-thandabantu.github.io/who-are-you/letters/to-stalin/" className="footer-letter-link">A letter from Brighton →</a>
           <span>
             Built by{' '}
             <a href="https://bthanda.vercel.app" target="_blank" rel="noopener noreferrer">
