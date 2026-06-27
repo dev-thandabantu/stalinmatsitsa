@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 export default function TheArtist() {
   return (
     <section className="sec" id="about">
@@ -15,6 +17,16 @@ export default function TheArtist() {
             <p className="artist-pull-quote" style={{ marginTop: '2rem' }}>
               277K<br />abalandeli.
             </p>
+            <div className="artist-photo-wrap">
+              <Image
+                src="/assets/press.jpg"
+                alt="Stalin Matsitsa"
+                width={320}
+                height={400}
+                className="artist-photo"
+                unoptimized
+              />
+            </div>
           </div>
 
           <div className="artist-body">

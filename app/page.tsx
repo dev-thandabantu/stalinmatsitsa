@@ -4,6 +4,7 @@ import TopBar from '@/components/hub/TopBar'
 import Hero from '@/components/hub/Hero'
 import TheArtist from '@/components/hub/TheArtist'
 import CollabStack from '@/components/hub/CollabStack'
+import AnnouncementTicker from '@/components/hub/AnnouncementTicker'
 import ShowDates from '@/components/hub/ShowDates'
 import WatchSection from '@/components/hub/WatchSection'
 import StreamSection from '@/components/hub/StreamSection'
@@ -17,6 +18,7 @@ export default function Home() {
       <TopBar />
       <main>
         <Hero />
+        <AnnouncementTicker />
         <TheArtist />
         <CollabStack />
         <ShowDates />

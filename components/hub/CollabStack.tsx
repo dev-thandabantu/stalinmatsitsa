@@ -11,7 +11,7 @@ export default function CollabStack() {
         <h2 className="sec-heading" style={{ marginBottom: '0.5rem' }}>
           Featured<br /><span className="gold">Work.</span>
         </h2>
-        <div className="collab-stack" style={{ marginTop: '2rem' }}>
+        <div className="collab-slider" style={{ marginTop: '2rem' }}>
           {releases.map(r => <CollabCard key={r.id} release={r} />)}
         </div>
       </div>

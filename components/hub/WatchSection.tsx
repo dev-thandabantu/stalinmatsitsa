@@ -21,7 +21,11 @@ export default function WatchSection() {
                   title="Ngeke Ngimyeke"
                 />
               ) : (
-                <div className="watch-thumb" onClick={() => setLoaded(true)}>
+                <div
+                  className="watch-thumb"
+                  onClick={() => setLoaded(true)}
+                  style={{ backgroundImage: 'url(/assets/watch-thumb.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}
+                >
                   <div className="watch-play-btn">▶</div>
                 </div>
               )}

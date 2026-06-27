@@ -478,6 +478,20 @@ img, video { display: block; max-width: 100%; }
 
 .artist-bio p + p { margin-top: 1rem; }
 
+.artist-photo-wrap {
+  margin-top: 2.5rem;
+  overflow: hidden;
+}
+
+.artist-photo {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+  filter: grayscale(20%) contrast(1.05);
+}
+
 .stat-chips {
   display: flex;
   flex-wrap: wrap;
@@ -508,28 +522,88 @@ img, video { display: block; max-width: 100%; }
   margin-bottom: 2.5rem;
 }
 
-.collab-stack {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
+/* ─── Announcement Ticker ────────────────────────────────── */
+.ticker {
+  overflow: hidden;
+  background: var(--gold);
+  padding: 11px 0;
+  cursor: default;
 }
+
+.ticker-track {
+  display: flex;
+  width: max-content;
+  white-space: nowrap;
+  animation: ticker 40s linear infinite;
+}
+
+.ticker:hover .ticker-track { animation-play-state: paused; }
+
+.ticker-text {
+  font-family: var(--font-display), 'Bebas Neue', sans-serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.16em;
+  color: var(--bg);
+  padding: 0 1.5rem;
+}
+
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track { animation: none; }
+}
+
+/* ─── Collab Slider ──────────────────────────────────────── */
+.collab-slider {
+  display: flex;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  gap: 1px;
+  -webkit-overflow-scrolling: touch;
+  /* fade-out right edge hint */
+  -webkit-mask-image: linear-gradient(to right, black 80%, transparent 100%);
+  mask-image: linear-gradient(to right, black 80%, transparent 100%);
+}
+
+.collab-slider::-webkit-scrollbar { display: none; }
 
 .collab-card {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.75rem 0;
-  border-bottom: 1px solid var(--line);
-  gap: 2rem;
+  flex: 0 0 clamp(300px, 70vw, 520px);
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  padding: 1.75rem 1.5rem;
+  border: 1px solid var(--line);
+  gap: 1.5rem;
   text-decoration: none;
-  transition: background 0.2s;
+  transition: border-color 0.2s;
   cursor: pointer;
+  background: var(--bg-2);
 }
 
-.collab-card:first-child { border-top: 1px solid var(--line); }
-
+.collab-card:hover { border-color: var(--gold-line); }
 .collab-card:hover .collab-arrow { color: var(--gold); transform: translate(3px, -3px); }
 .collab-card:hover .collab-title { color: var(--gold); }
+
+.collab-cover-wrap {
+  flex-shrink: 0;
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+}
+
+.collab-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
 
 .collab-left { flex: 1; min-width: 0; }
 
