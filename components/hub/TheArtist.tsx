@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 export default function TheArtist() {
   return (
     <section className="sec" id="about">
@@ -7,14 +9,22 @@ export default function TheArtist() {
         <div className="artist-grid">
           <div className="artist-heading-block">
             <h2 className="sec-heading">
-              Umzimba<br />
-              Kuqala.<br />
-              Iculo<br />
-              <span className="gold">Emuva.</span>
+              Waqala <span className="gold">ngomzimba.</span>
             </h2>
+            <p className="artist-heading-sub">He started with the body.</p>
             <p className="artist-pull-quote" style={{ marginTop: '2rem' }}>
               277K<br />abalandeli.
             </p>
+            <div className="artist-photo-wrap">
+              <Image
+                src="/assets/press.jpg"
+                alt="Stalin Matsitsa"
+                width={320}
+                height={400}
+                className="artist-photo"
+                unoptimized
+              />
+            </div>
           </div>
 
           <div className="artist-body">
