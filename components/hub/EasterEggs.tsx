@@ -57,11 +57,13 @@ export default function EasterEggs() {
 
   const tiktokCount = useRef(0)
   const dancerTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const openedAt = useRef(0)
 
   // Stable ref so event listeners always call the latest version
   const triggerRef = useRef<(egg: EggConfig) => void>(() => {})
 
   triggerRef.current = (egg: EggConfig) => {
+    openedAt.current = Date.now()
     if (sessionStorage.getItem('egg_' + egg.id) === '1') {
       setActiveEgg(egg)
       setPhase('already')
@@ -164,7 +166,7 @@ export default function EasterEggs() {
   if (phase === 'idle') return null
 
   return (
-    <div className="egg-overlay" onClick={(e) => { if (e.target === e.currentTarget) closeOverlay() }}>
+    <div className="egg-overlay" onClick={(e) => { if (e.target === e.currentTarget && Date.now() - openedAt.current > 400) closeOverlay() }}>
       <div className="egg-card">
         <button className="egg-card-close" onClick={closeOverlay} aria-label="Close">&times;</button>
 

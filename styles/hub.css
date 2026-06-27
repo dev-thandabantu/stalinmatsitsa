@@ -616,7 +616,7 @@ video.hero-stage-bg {
   scrollbar-width: none;
   gap: 1px;
   -webkit-overflow-scrolling: touch;
-  /* mask removed — clips touch events on mobile */
+  padding-right: clamp(40px, 8vw, 120px);
 }
 
 .collab-slider::-webkit-scrollbar { display: none; }
@@ -625,7 +625,7 @@ video.hero-stage-bg {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex: 0 0 clamp(280px, 42vw, 400px);
+  flex: 0 0 clamp(260px, 36vw, 360px);
   scroll-snap-align: start;
   scroll-snap-stop: always;
   padding: 1.75rem 1.5rem;
