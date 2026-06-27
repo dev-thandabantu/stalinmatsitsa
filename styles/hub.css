@@ -784,6 +784,62 @@ img, video { display: block; max-width: 100%; }
   border-color: var(--gold-line);
 }
 
+.book-date-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.5rem;
+}
+
+.book-picker-btn {
+  background: var(--gold-soft);
+  border: 1px solid var(--gold-line);
+  color: var(--gold);
+  font-family: var(--font-sans), Inter, sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.book-picker-btn:hover {
+  background: var(--gold);
+  color: var(--bg);
+}
+
+.book-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.2rem;
+}
+
+.book-chip {
+  background: rgba(245, 240, 232, 0.03);
+  border: 1px solid var(--line-strong);
+  color: var(--muted);
+  font-family: var(--font-sans), Inter, sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  padding: 0.42rem 0.65rem;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+
+.book-chip:hover {
+  border-color: var(--gold-line);
+  color: var(--gold);
+  background: var(--gold-soft);
+}
+
+.book-hint {
+  color: var(--faded);
+  font-size: 0.74rem;
+  line-height: 1.5;
+}
+
 .book-field textarea { resize: vertical; min-height: 120px; }
 
 /* Event type + budget cards */
@@ -839,6 +895,11 @@ img, video { display: block; max-width: 100%; }
 .book-back:hover { color: var(--ink); }
 
 .book-next { flex: 1; justify-content: center; }
+
+.book-next:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
 
 /* Success state */
 .book-success {

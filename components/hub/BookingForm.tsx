@@ -30,11 +30,32 @@ const EVENT_TYPES: EventType[] = [
   'Other',
 ]
 
+type DateShortcut =
+  | { label: string; daysFromNow: number; value?: never }
+  | { label: string; value: string; daysFromNow?: never }
+
+const DATE_SHORTCUTS: DateShortcut[] = [
+  { label: 'This weekend', daysFromNow: 6 },
+  { label: 'Next month', daysFromNow: 30 },
+  { label: 'Date TBC', value: '' },
+]
+
+const LOCATION_SUGGESTIONS = [
+  'Johannesburg',
+  'Pretoria',
+  'Mbombela',
+  'Nkomazi',
+  'Durban',
+  'Cape Town',
+  'Venue TBC',
+]
+
 type Answers = {
   name: string
   email: string
   eventType: EventType | ''
   date: string
+  dateTbc: boolean
   location: string
   attendees: string
   collabDetails: string
@@ -57,6 +78,21 @@ function heading(step: number, a: Answers): string {
   return ''
 }
 
+function toDateInputValue(date: Date): string {
+  const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000)
+  return localDate.toISOString().slice(0, 10)
+}
+
+function addDays(days: number): string {
+  const date = new Date()
+  date.setDate(date.getDate() + days)
+  return toDateInputValue(date)
+}
+
+function dateShortcutValue(choice: DateShortcut): string {
+  return typeof choice.daysFromNow === 'number' ? addDays(choice.daysFromNow) : choice.value
+}
+
 export default function BookingForm() {
   const [step, setStep] = useState(1)
   const [submitted, setSubmitted] = useState(false)
@@ -68,6 +104,7 @@ export default function BookingForm() {
     email: '',
     eventType: '',
     date: '',
+    dateTbc: false,
     location: '',
     attendees: '',
     collabDetails: '',
@@ -82,6 +119,7 @@ export default function BookingForm() {
     inputRef.current?.focus()
   }, [step])
 
+  const today = toDateInputValue(new Date())
   const set = (k: keyof Answers, v: string) => setA(prev => ({ ...prev, [k]: v }))
 
   const totalSteps = a.eventType === 'Collaboration' ? 4 : 5
@@ -91,7 +129,7 @@ export default function BookingForm() {
   function advance() {
     if (step === 1 && (!a.name.trim() || !a.email.trim())) return
     if (step === 2 && !a.eventType) return
-    if (step === 3 && a.eventType !== 'Collaboration' && !a.date) return
+    if (step === 3 && a.eventType !== 'Collaboration' && ((!a.date && !a.dateTbc) || !a.location.trim())) return
     const nextStep = step + 1
     // step 4 is budget — skip for collaborations, jump to 5
     if (nextStep === 4 && skipBudget) {
@@ -110,6 +148,19 @@ export default function BookingForm() {
     }
   }
 
+  function openDatePicker() {
+    inputRef.current?.showPicker?.()
+    inputRef.current?.focus()
+  }
+
+  function chooseDateShortcut(choice: DateShortcut) {
+    if (typeof choice.daysFromNow === 'number') {
+      setA(prev => ({ ...prev, date: dateShortcutValue(choice), dateTbc: false }))
+      return
+    }
+    setA(prev => ({ ...prev, date: '', dateTbc: true }))
+  }
+
   async function submit() {
     setSubmitting(true)
     setSubmitError(false)
@@ -120,7 +171,7 @@ export default function BookingForm() {
       name: a.name,
       email: a.email,
       eventType: a.eventType,
-      date: a.date,
+      date: a.dateTbc ? 'Date TBC' : a.date,
       location: a.location,
       attendees: a.attendees,
       collabDetails: a.collabDetails,
@@ -260,25 +311,68 @@ export default function BookingForm() {
             <>
               <div className="book-field">
                 <label htmlFor="b-date">Event date</label>
-                <input
-                  id="b-date"
-                  ref={inputRef}
-                  type="date"
-                  value={a.date}
-                  onChange={e => set('date', e.target.value)}
-                />
+                <div className="book-date-row">
+                  <input
+                    id="b-date"
+                    ref={inputRef}
+                    type="date"
+                    value={a.date}
+                    min={today}
+                    onChange={e => setA(prev => ({ ...prev, date: e.target.value, dateTbc: false }))}
+                  />
+                  <button className="book-picker-btn" type="button" onClick={openDatePicker} aria-label="Open date picker">
+                    Calendar
+                  </button>
+                </div>
+                <div className="book-chip-row" aria-label="Quick date choices">
+                  {DATE_SHORTCUTS.map(choice => (
+                    <button
+                      key={choice.label}
+                      className="book-chip"
+                      type="button"
+                      onClick={() => chooseDateShortcut(choice)}
+                    >
+                      {choice.label}
+                    </button>
+                  ))}
+                </div>
+                <p className="book-hint">
+                  {a.dateTbc ? 'Date marked as TBC.' : 'Pick the event day, or use Date TBC if it is still moving.'}
+                </p>
               </div>
               <div className="book-field">
                 <label htmlFor="b-location">City / Venue</label>
                 <input
                   id="b-location"
                   type="text"
+                  list="booking-location-options"
                   value={a.location}
                   onChange={e => set('location', e.target.value)}
                   onKeyDown={e => e.key === 'Enter' && advance()}
+                  autoComplete="address-level2"
                   placeholder="e.g. Johannesburg · Bassline"
                 />
               </div>
+              <datalist id="booking-location-options">
+                {LOCATION_SUGGESTIONS.map(location => (
+                  <option key={location} value={location} />
+                ))}
+              </datalist>
+              <div className="book-chip-row" aria-label="Quick location choices">
+                {LOCATION_SUGGESTIONS.slice(0, 4).map(location => (
+                  <button
+                    key={location}
+                    className="book-chip"
+                    type="button"
+                    onClick={() => set('location', location)}
+                  >
+                    {location}
+                  </button>
+                ))}
+              </div>
+              <p className="book-hint">
+                A city is enough to start. Add the venue name if it is confirmed.
+              </p>
               {a.eventType === 'Festival' && (
                 <div className="book-field">
                   <label htmlFor="b-attend">Expected attendance</label>
@@ -347,7 +441,7 @@ export default function BookingForm() {
             type="button"
             disabled={
               (step === 1 && (!a.name.trim() || !a.email.trim())) ||
-              (step === 3 && a.eventType !== 'Collaboration' && !a.date)
+              (step === 3 && a.eventType !== 'Collaboration' && ((!a.date && !a.dateTbc) || !a.location.trim()))
             }
           >
             Continue →
