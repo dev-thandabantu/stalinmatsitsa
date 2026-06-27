@@ -25,8 +25,8 @@ export default function ConnectFooter() {
           <span>© {new Date().getFullYear()} Stalin Matsitsa · Nkomazi, Mzansi</span>
           <span>
             Built by{' '}
-            <a href="https://bthanda.vercel.app" target="_blank" rel="noopener noreferrer">
-              Brighton Tandabantu
+            <a href="https://aakitech.com" target="_blank" rel="noopener noreferrer">
+              The African Architect
             </a>
           </span>
         </div>
