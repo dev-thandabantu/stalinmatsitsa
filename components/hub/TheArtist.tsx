@@ -9,11 +9,9 @@ export default function TheArtist() {
         <div className="artist-grid">
           <div className="artist-heading-block">
             <h2 className="sec-heading">
-              Umzimba<br />
-              Kuqala.<br />
-              Iculo<br />
-              <span className="gold">Emuva.</span>
+              Waqala <span className="gold">ngomzimba.</span>
             </h2>
+            <p className="artist-heading-sub">He started with the body.</p>
             <p className="artist-pull-quote" style={{ marginTop: '2rem' }}>
               277K<br />abalandeli.
             </p>

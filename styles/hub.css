@@ -455,6 +455,16 @@ img, video { display: block; max-width: 100%; }
   font-size: clamp(4rem, 10vw, 9rem);
 }
 
+.artist-heading-sub {
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 1rem;
+}
+
 .artist-pull-quote {
   font-family: var(--font-display), 'Bebas Neue', sans-serif;
   font-size: clamp(2.5rem, 5vw, 4.5rem);
