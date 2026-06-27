@@ -10,6 +10,7 @@ import WatchSection from '@/components/hub/WatchSection'
 import StreamSection from '@/components/hub/StreamSection'
 import BookSection from '@/components/hub/BookSection'
 import ConnectFooter from '@/components/hub/ConnectFooter'
+import EasterEggs from '@/components/hub/EasterEggs'
 
 export default function Home() {
   return (
@@ -28,6 +29,7 @@ export default function Home() {
       </main>
       <ConnectFooter />
       <AudioPlayer />
+      <EasterEggs />
     </>
   )
 }

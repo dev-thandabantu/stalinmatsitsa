@@ -39,7 +39,10 @@ export default function WatchSection() {
             <p className="sec-kicker">Watch</p>
             <h2 className="sec-heading">
               Ngeke<br />
-              <span className="gold">Ngimyeke.</span>
+              <span className="gold" style={{ position: 'relative' }}>
+                Ngimyeke.
+                <button id="egg-lyric" className="egg egg-lyric" aria-hidden="true" tabIndex={-1} />
+              </span>
             </h2>
           </div>
         </div>
