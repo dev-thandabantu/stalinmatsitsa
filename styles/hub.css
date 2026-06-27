@@ -191,6 +191,36 @@ img, video { display: block; max-width: 100%; }
   animation: stageBreath 12s var(--ease-in-out) infinite alternate;
 }
 
+/* When hero-stage-bg is a <video> element */
+video.hero-stage-bg {
+  background-image: none;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+video.hero-stage-bg::after { display: none; }
+
+/* gradient overlays for the video hero */
+.hero-video + .hero-stage-sweep { z-index: 1; }
+
+.hero-video::before,
+.hero-video::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero-video::before {
+  background: linear-gradient(90deg, rgba(8,8,8,0.88) 0%, rgba(8,8,8,0.5) 40%, rgba(8,8,8,0.18) 70%, rgba(8,8,8,0.65) 100%);
+}
+
+.hero-video::after {
+  background: linear-gradient(0deg, rgba(8,8,8,0.96) 0%, rgba(8,8,8,0.1) 45%, rgba(8,8,8,0.82) 100%);
+}
+
 .hero-stage-sweep {
   position: absolute;
   inset: 0;

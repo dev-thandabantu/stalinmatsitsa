@@ -22,6 +22,7 @@ export default function TheArtist() {
                 width={320}
                 height={400}
                 className="artist-photo"
+                data-egg="photo"
                 unoptimized
               />
             </div>
@@ -43,12 +44,13 @@ export default function TheArtist() {
               </p>
               <p>
                 3.1 million TikTok likes don&apos;t lie. Isigqi sakhe asikhohlikali —
-                the audience found him because something in the movement was undeniable.
+                the audience found him because something in the movement was{' '}
+                <button id="egg-reader" className="egg egg-reader">undeniable</button>.
               </p>
             </div>
 
             <div className="stat-chips">
-              <span className="stat-chip">277K Abalandeli</span>
+              <span className="stat-chip" data-egg="tiktok">277K Abalandeli</span>
               <span className="stat-chip">3.1M Izithanda</span>
               <span className="stat-chip">Afropop</span>
               <span className="stat-chip">Maskandi</span>

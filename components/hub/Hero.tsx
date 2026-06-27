@@ -25,8 +25,15 @@ export default function Hero() {
 
   return (
     <section className="hero">
-      {/* Video background — drop a file at /public/assets/hero.mp4 to activate */}
-      <div className="hero-stage-bg" aria-hidden="true" />
+      <video
+        className="hero-stage-bg hero-video"
+        src="/assets/hero.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        aria-hidden="true"
+      />
       <div className="hero-stage-sweep" aria-hidden="true" />
       <div className="hero-rhythm" aria-hidden="true">
         <span />
