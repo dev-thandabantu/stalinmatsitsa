@@ -970,7 +970,19 @@ video.hero-stage-bg {
   text-underline-offset: 3px;
 }
 
-/* ─── Conversational Booking ─────────────────────────────── */
+/* ─── Booking → WhatsApp ─────────────────────────────────── */
+.book-wa-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.book-wa-btn {
+  align-self: flex-start;
+  margin-top: 0.5rem;
+}
+
+/* ─── Conversational Booking (legacy, unused) ────────────── */
 .book-convo {
   position: relative;
   display: flex;
