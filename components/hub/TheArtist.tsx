@@ -15,14 +15,14 @@ export default function TheArtist() {
             <p className="artist-pull-quote" style={{ marginTop: '2rem' }}>
               277K<br />abalandeli.
             </p>
-            <div className="artist-photo-wrap">
+            {/* data-egg on wrapper div, not on Image itself */}
+            <div className="artist-photo-wrap" data-egg="photo">
               <Image
                 src="/assets/press.jpg"
                 alt="Stalin Matsitsa"
                 width={320}
                 height={400}
                 className="artist-photo"
-                data-egg="photo"
                 unoptimized
               />
             </div>
@@ -50,7 +50,8 @@ export default function TheArtist() {
             </div>
 
             <div className="stat-chips">
-              <span className="stat-chip" data-egg="tiktok">277K Abalandeli</span>
+              {/* button for reliable mobile tap events */}
+              <button className="stat-chip egg-chip" data-egg="tiktok">277K Abalandeli</button>
               <span className="stat-chip">3.1M Izithanda</span>
               <span className="stat-chip">Afropop</span>
               <span className="stat-chip">Maskandi</span>

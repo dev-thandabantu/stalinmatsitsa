@@ -37,12 +37,10 @@ export default function WatchSection() {
 
           <div className="watch-text">
             <p className="sec-kicker">Watch</p>
-            <h2 className="sec-heading">
+            {/* egg-lyric wraps the whole heading — large tap target, no hidden button */}
+            <h2 className="sec-heading" id="egg-lyric" style={{ cursor: 'default' }}>
               Ngeke<br />
-              <span className="gold" style={{ position: 'relative' }}>
-                Ngimyeke.
-                <button id="egg-lyric" className="egg egg-lyric" aria-hidden="true" tabIndex={-1} />
-              </span>
+              <span className="gold">Ngimyeke.</span>
             </h2>
           </div>
         </div>
