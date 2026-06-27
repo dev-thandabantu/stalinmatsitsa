@@ -16,9 +16,9 @@ export default function CollabStack() {
     if (!slider) return
 
     function scrollToIdx(i: number) {
-      const cards = slider!.querySelectorAll('.collab-card')
+      const cards = slider!.querySelectorAll<HTMLElement>('.collab-card')
       if (!cards[i]) return
-      cards[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' })
+      slider!.scrollTo({ left: cards[i].offsetLeft - slider!.offsetLeft, behavior: 'smooth' })
     }
 
     const tick = setInterval(() => {
