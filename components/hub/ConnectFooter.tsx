@@ -1,5 +1,9 @@
 import { socials } from '@/data/social'
 
+function track(destination: string, label: string) {
+  window.posthog?.capture('outbound_click', { destination, label })
+}
+
 export default function ConnectFooter() {
   return (
     <footer className="connect" id="connect">
@@ -15,6 +19,7 @@ export default function ConnectFooter() {
               target="_blank"
               rel="noopener noreferrer"
               className="social-pill"
+              onClick={() => track(s.id, s.label)}
             >
               {s.label} · {s.handle}
             </a>
@@ -25,7 +30,12 @@ export default function ConnectFooter() {
           <span>© {new Date().getFullYear()} Stalin Matsitsa · Nkomazi, Mzansi</span>
           <span>
             Built by{' '}
-            <a href="https://aakitech.com" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://aakitech.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => track('african_architect', 'The African Architect')}
+            >
               The African Architect
             </a>
           </span>
