@@ -1,3 +1,5 @@
+'use client'
+
 import { socials } from '@/data/social'
 
 function track(destination: string, label: string) {

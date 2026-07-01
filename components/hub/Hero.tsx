@@ -10,14 +10,22 @@ export default function Hero() {
     const video = videoRef.current
     if (!video) return
 
-    // canplaythrough = enough buffered to play without stalling
     const onReady = () => setVideoReady(true)
+
+    // 'playing' fires when the video actually starts — more reliable on mobile/iOS than canplaythrough
+    video.addEventListener('playing', onReady, { once: true })
     video.addEventListener('canplaythrough', onReady, { once: true })
 
-    // Fallback: if already buffered when we mount (cache hit)
+    // Fallback: already buffered on mount (cache hit)
     if (video.readyState >= 4) setVideoReady(true)
 
-    return () => video.removeEventListener('canplaythrough', onReady)
+    // Explicit play() call — autoPlay attribute alone is unreliable on mobile
+    video.play().catch(() => {/* blocked by browser policy, static bg stays visible */})
+
+    return () => {
+      video.removeEventListener('playing', onReady)
+      video.removeEventListener('canplaythrough', onReady)
+    }
   }, [])
 
   // Easter egg: type "dance" → hero name pulses gold
